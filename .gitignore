@@ -2,3 +2,5 @@ __pycache__
 env
 .idea/
 little_extras.txt
+*___jb_old___
+*___jb_tmp___

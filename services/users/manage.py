@@ -1,4 +1,6 @@
 # services/users/manage.py
+import sys
+print("ehhhh?",file=sys.stderr)
 
 from flask.cli import FlaskGroup
 
