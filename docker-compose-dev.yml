@@ -1,0 +1,26 @@
+version: '3.7'
+
+# build the image
+# docker-compose -f docker-compose-dev.yml build
+
+# bring up the built image
+# docker-compose -f docker-compose-dev.yml up -d
+
+# update current build
+# docker-compose -f docker-compose-dev.yml up -d --build
+
+services:
+
+  users:
+    build:
+      context: ./services/users
+      dockerfile: Dockerfile-dev
+    volumes:
+      - './services/users:/usr/src/app'
+    ports:
+      - 5001:5000
+    environment:
+      - APP_SETTINGS=project.config.DevelopmentConfig
+      - COMPOSE_CONVERT_WINDOWS_PATHS=1
+      - FLASK_APP=project/__init__.py
+      - FLASK_ENV=development
