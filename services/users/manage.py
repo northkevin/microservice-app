@@ -22,11 +22,20 @@ def recreate_db():
 @cli.command()
 def test():
     """Runs the tests without code coverage"""
+
     tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         return 0
     return 1
+
+
+@cli.command()
+def seed():
+    """Seeds the database with dummy data"""
+    db.session.add(User(username='michael', email='hermanmu@gmail.com'))
+    db.session.add(User(username='michaelherman', email='michael@mherman.org'))
+    db.session.commit()
 
 
 if __name__ == '__main__':
