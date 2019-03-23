@@ -12,3 +12,6 @@ docker-compose -f docker-compose-dev.yml exec users python manage.py recreate_db
 
 # myapp-postgres
 docker-compose -f docker-compose-dev.yml exec users-db psql -U postgres
+
+# myapp-seed
+docker-compose -f docker-compose-dev.yml exec users python manage.py -U seed
