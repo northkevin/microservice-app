@@ -1,0 +1,14 @@
+# myapp-build
+docker-compose -f docker-compose-dev.yml up -d --build
+
+# myapp-test
+docker-compose -f docker-compose-dev.yml exec users python manage.py test
+
+# myapp-shell
+docker-compose -f docker-compose-dev.yml exec users flask shell
+
+# myapp-recreate-db
+docker-compose -f docker-compose-dev.yml exec users python manage.py recreate_db
+
+# myapp-postgres
+docker-compose -f docker-compose-dev.yml exec users-db psql -U postgres
