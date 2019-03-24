@@ -11,4 +11,8 @@ done
 
 echo "PostgreSQL started"
 
+pwd
+echo "what's in here.."
+ls -al
+
 python manage.py run -h 0.0.0.0

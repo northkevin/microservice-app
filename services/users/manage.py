@@ -1,6 +1,4 @@
-# services/users/manage.py
-
-
+#!/usr/local/bin/python
 import unittest
 
 from flask.cli import FlaskGroup
@@ -12,7 +10,7 @@ app = create_app()  # new
 cli = FlaskGroup(create_app=create_app)  # new
 
 
-@cli.command('recreate_db')
+@cli.command()
 def recreate_db():
     db.drop_all()
     db.create_all()
@@ -21,8 +19,7 @@ def recreate_db():
 
 @cli.command()
 def test():
-    """Runs the tests without code coverage"""
-
+    """ Runs the tests without code coverage"""
     tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
@@ -31,10 +28,10 @@ def test():
 
 
 @cli.command()
-def seed():
-    """Seeds the database with dummy data"""
-    db.session.add(User(username='michael', email='hermanmu@gmail.com'))
-    db.session.add(User(username='michaelherman', email='michael@mherman.org'))
+def seed_db():
+    """Seeds the database."""
+    db.session.add(User(username='michael', email="hermanmu@gmail.com"))
+    db.session.add(User(username='michaelherman', email="michael@mherman.org"))
     db.session.commit()
 
 
