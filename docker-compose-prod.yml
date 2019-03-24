@@ -1,0 +1,38 @@
+version: '3.7'
+
+# build the image
+# docker-compose -f docker-compose-dev.yml build
+
+# bring up the built image
+# docker-compose -f docker-compose-dev.yml up -d
+
+# update current build
+# docker-compose -f docker-compose-dev.yml up -d --build
+
+services:
+
+  users:
+    build:
+      context: ./services/users
+      dockerfile: Dockerfile-dev
+#    volumes:
+#      - './services/users:/usr/src/app'
+    ports:
+      - 5001:5000
+    environment:
+      - FLASK_ENV=production
+      - APP_SETTINGS=project.config.ProductionConfig
+      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev  # new
+      - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test  # new
+    depends_on:  # new
+      - users-db
+
+  users-db:  # new
+    build:
+      context: ./services/users/project/db
+      dockerfile: Dockerfile
+    ports:
+      - 5435:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres

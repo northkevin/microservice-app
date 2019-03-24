@@ -15,3 +15,16 @@ docker-compose -f docker-compose-dev.yml exec users-db psql -U postgres
 
 # myapp-seed
 docker-compose -f docker-compose-dev.yml exec users python manage.py -U seed
+
+# myapp-deploy-awsec2
+docker-machine create --driver amazonec2 testdriven-prod
+
+# production commands
+docker-machine create --driver amazonec2 testdriven-prod                           # create the instance
+docker-machine env testdriven-prod                                                 # connect docker daemon to aws
+docker-compose -f docker-compose-prod.yml up -d --build                            # build / bring up the app
+docker-compose -f docker-compose-prod.yml exec users python manage.py recreate_db  # drop / create db
+docker-compose -f docker-compose-prod.yml exec users python manage.py seed         # migrate data
+docker-compose -f docker-compose-prod.yml exec users python manage.py test         # run tests
+
+docker-compose -f docker-compose-prod.yml up -d # redeploy code changes
