@@ -10,14 +10,14 @@ app = create_app()  # new
 cli = FlaskGroup(create_app=create_app)  # new
 
 
-@cli.command()
+@cli.command('recreate_db')
 def recreate_db():
     db.drop_all()
     db.create_all()
     db.session.commit()
 
 
-@cli.command()
+@cli.command('test')
 def test():
     """ Runs the tests without code coverage"""
     tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
@@ -27,7 +27,7 @@ def test():
     return 1
 
 
-@cli.command()
+@cli.command('seed_db')
 def seed_db():
     """Seeds the database."""
     db.session.add(User(username='michael', email="hermanmu@gmail.com"))

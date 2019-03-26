@@ -2,6 +2,8 @@
 import os
 
 
+
+
 class BaseConfig:
     """Base configuration"""
     TESTING = False
