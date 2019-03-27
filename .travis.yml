@@ -11,8 +11,11 @@ env:
 before_install:
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - ls -al
   - chmod +x docker-compose
+  - ls -al
   - sudo mv docker-compose /usr/local/bin
+  - ls -al /usr/local/bin
 
 before_script:
   - sudo docker-compose -f docker-compose-dev.yml up --build -d
