@@ -79,7 +79,7 @@ def get_single_user(user_id):
             }
         }
         return jsonify(response_object), 200
-    except:
+    except Exception:
         return jsonify(response_object), 404
 
 
