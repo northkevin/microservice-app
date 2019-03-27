@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # remember.. the line endings in this file need to be unix format
 # dos2unix services\users\entrypoint.sh
