@@ -4,3 +4,4 @@ env
 little_extras.txt
 *___jb_old___
 *___jb_tmp___
+htmlcov/

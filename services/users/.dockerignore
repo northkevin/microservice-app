@@ -4,3 +4,4 @@ Dockerfile-dev
 Dockerfile-prod
 *___jb_old___
 *___jb_tmp___
+htmlcov/
