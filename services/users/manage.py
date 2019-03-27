@@ -21,7 +21,7 @@ app = create_app()
 cli = FlaskGroup(create_app=create_app)
 
 
-@cli.command()
+@cli.command('cov')
 def cov():
     """Runs the unit tests with coverage"""
     tests = unittest.TestLoader().discover('project/tests')
