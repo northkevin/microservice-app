@@ -18,10 +18,10 @@ RUN pip install -r requirements.txt
 
 # add entrypoint.sh for bringing postgresql up
 COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
-RUN sudo chmod +x /usr/src/app/entrypoint.sh
 
-
-RUN echo "heyyyyyyyyyyyyyyyyyyy"
+RUN ls -al /usr/src/app/
+RUN chmod +x /usr/src/app/entrypoint.sh
+RUN ls -al /usr/src/app/
 
 # add app
 COPY . /usr/src/app
