@@ -4,8 +4,10 @@
 import os
 
 from flask import Flask  # new
-from flask_sqlalchemy import SQLAlchemy
+
 from flask_debugtoolbar import DebugToolbarExtension
+
+from flask_sqlalchemy import SQLAlchemy
 
 
 # instantiate the db
@@ -14,7 +16,7 @@ db = SQLAlchemy()
 # add flask debug toolbar
 toolbar = DebugToolbarExtension()
 
-# new
+
 def create_app(script_info=None):
 
     # instantiate the app
