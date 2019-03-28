@@ -2,6 +2,7 @@
 import unittest
 
 import coverage as coverage
+
 from flask.cli import FlaskGroup
 
 from project import create_app, db
@@ -19,6 +20,15 @@ COV.start()
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)
+
+
+@cli.command('bug')
+def bug():
+    """Prints out debugging info when I need it"""
+    import os
+    print(os.environ.get('DEBUG_TB_ENABLED'))
+    print(os.environ.get('APP_SETTINGS'))
+    print(os.environ)
 
 
 @cli.command('cov')
