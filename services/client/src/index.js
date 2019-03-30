@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 
-const App = () => {
-  return (
+class App extends Component
+{
+  constructor()
+  {
+    super();
+  }
+
+  render()
+  {
+    return (
       <section className="section">
         <div className="container">
           <div className="columnns">
@@ -14,7 +23,15 @@ const App = () => {
           </div>
         </div>
       </section>
-  )
+    )
+  }
+
+  getUsers()
+  {
+    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
+      .then((res) => { console.log(res); })
+      .catch((err) => { console.log(err); });
+  }
 }
 
 ReactDOM.render(
