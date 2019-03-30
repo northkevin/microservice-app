@@ -12,7 +12,6 @@ const AddUser = (props) => {
           required
           value={props.username}
           onChange={props.handleChange}
-          arbitraryproperty="somthingDumb"
         />
       </div>
       <div className="field">

@@ -1,6 +1,5 @@
 # services/users/project/api/users.py
-
-
+import sqlalchemy
 from flask import Blueprint, jsonify, request, render_template
 from sqlalchemy import exc
 
@@ -53,6 +52,9 @@ def add_user():
             response_object['message'] = 'Sorry. that email already exists.'
             return jsonify(response_object), 400
     except exc.IntegrityError:
+        db.session.rollback()
+        return jsonify(response_object), 400
+    except sqlalchemy.exc.DataError:
         db.session.rollback()
         return jsonify(response_object), 400
 
