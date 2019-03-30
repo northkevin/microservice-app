@@ -19,7 +19,7 @@ db = SQLAlchemy()
 toolbar = DebugToolbarExtension()
 
 # allow cross domain requests on localhost
-cors = CORS();
+cors = CORS()
 
 
 def create_app(script_info=None):
