@@ -5,3 +5,5 @@ little_extras.txt
 *___jb_old___
 *___jb_tmp___
 htmlcov/
+services/client/src/components/__tests__/__snapshots__
+services/client/package-lock.json
