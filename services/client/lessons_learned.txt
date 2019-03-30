@@ -1,0 +1,66 @@
+#TODO_LESSON_LEARNED_1
+
+identify where the '.name' property comes from within the 'event.target.name'
+
+React has an event handling module and the event variable in this method is from a class called 'SyntheticEvent'
+
+link to docs --> https://reactjs.org/docs/events.html
+
+1. the target, is the form element from 'AddUser.jsx'
+
+2. the name, is the 'name' property from the form element ..
+
+3. tested this out by adding an arbitrary property to the form element and logging its value here using the same
+
+```
+const AddUser = (props) => {
+  return (
+    <form onSubmit={ (event) => props.addUser(event)}>
+      <div className="field">
+        <input
+          name="username"
+          className="input is-large"
+          type="text"
+          placeholder="Enter a username"
+          required
+          value={props.username}
+          onChange={props.handleChange}
+          arbitraryProperty="somthingDumb"
+        />
+    ...
+    ..
+```
+
+4. syntax of 'event.target.arbitraryProperty'
+
+5. .. this actually gives me a very detailed warning message from React library
+
+```
+index.js:1446 Warning: React does not recognize the `arbitraryProperty` prop on a DOM element. If you intentionally want
+                        it to appear in the DOM as a custom attribute, spell it as lowercase `arbitraryproperty`
+                        instead. If you accidentally passed it from a parent component, remove it from the DOM element.
+```
+
+6. I changed my custom property to the name 'arbitraryproperty'
+
+7. I added 'console.log('event.target.arbitraryProperty: ' + event.target.arbitraryproperty);' to the App#handleChange(event)
+
+    method.. where I'm expecting this event variable to show up in.
+8. This didn't work, here's what I see printed to the javascript console when I enter 'a' into the form field that I added the arbitraryproperty too
+
+```
+index.js - App#handleChange(event) - event.target.arbitraryproperty:  undefined
+```
+
+9. On Stack Overflow I discovered that the react method 'event.target' gives me the 'Native DOM' object .. so I can use
+    the Native browser's API to interact with my custom property.
+    * link to native browser API docs -> ttps://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Using_data_attributes#JavaScript_Access
+
+10. I updated my console.log statement to the following..
+`console.log("index.js - App#handleChange(event) - event.target.getAttribute('arbitraryproperty': ", event.target.getAttribute('arbitraryproperty'));`
+
+.. which resulted in a log message of ..
+
+```
+index.js - App#handleChange(event) - event.target.getAttribute('arbitraryproperty':  somthingDumb
+```
