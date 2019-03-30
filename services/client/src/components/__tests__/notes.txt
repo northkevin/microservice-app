@@ -1,0 +1,20 @@
+1. Update the snapshot that exists in the __snapshots__ folder whenever you make a change to the 'UsersList.jsx'
+
+* press 'u' on the 'npm test' menu for 'enzyme'
+
+ex. update the UsersList.jsx iterator to use 'user.email' instead of 'user.username'
+
+```
+props.users.map((user) => {
+          return (
+            <h4
+              key={user.id}
+              className="box title is-4"
+            >{ user.email }
+            </h4>
+          )
+        })
+```
+
+* The snapshot within the __snapshots__ folder was created with the previous iterator using 'user.username'
+* So, the test will fail (as it is desinged too) until you manually 'update' the snapshot using the 'npm test' -> 'u'
