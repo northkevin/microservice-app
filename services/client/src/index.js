@@ -9,6 +9,13 @@ class App extends Component
     super();
   }
 
+  // 'componentDidMount' will make the method call when Ajax is completed mounting the app
+  // https://pbs.twimg.com/media/DZ-97vzW4AAbcZj.jpg:large
+  componentDidMount()
+  {
+    this.getUsers();
+  }
+
   render()
   {
     return (
@@ -29,7 +36,7 @@ class App extends Component
   getUsers()
   {
     axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
-      .then((res) => { console.log(res); })
+      .then((res) => { console.log(res.data.data); })
       .catch((err) => { console.log(err); });
   }
 }
