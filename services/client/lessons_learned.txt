@@ -1,6 +1,8 @@
 #TODO_LESSON_LEARNED_1
 
-identify where the '.name' property comes from within the 'event.target.name'
+services/client/src/index.js - line 47:
+
+`//TODO_LESSONS_LEARNED_1 identify where the '.name' property comes from within the 'event.target.name'`
 
 React has an event handling module and the event variable in this method is from a class called 'SyntheticEvent'
 
@@ -64,3 +66,70 @@ index.js - App#handleChange(event) - event.target.arbitraryproperty:  undefined
 ```
 index.js - App#handleChange(event) - event.target.getAttribute('arbitraryproperty':  somthingDumb
 ```
+
+# TODO_LESSON_LEARNED_2
+
+services/client/src/index.js - line 46:
+
+`//TODO_LESSONS_LEARNED_2 identify where the 'setState' method is defined`
+
+https://reactjs.org/docs/state-and-lifecycle.html#using-state-correctly
+
+### Using State Correctly
+
+There are three things you should know about setState().
+
+1. Do Not Modify State Directly
+    * the only place where you can assign `this.state` is the constructor.
+    * example..see usage on 'services/client/src/index.js'
+```
+    class App extends Component
+{
+  constructor()
+  {
+    super();
+    this.state = {
+      users: [],
+      username: '',
+      email: '',
+    };
+```
+
+2. State Updates May Be Asynchronous
+    * React may batch multiple setState() calls into a single update for performance.
+    * Because this.props and this.state may be updated asynchronously, you should not rely on their values for calculating the next state.
+    * .. example of workaround is to pass a 'function' to the #setState() method .. use a callback instead of a variable
+```
+this.setState((state, props) => ({
+    counter: state.counter + props.increment
+}));
+```
+
+3. State Updates are Merged
+    * the scope of changes that setState() aims at is for the ENTIRE component.  Ie, 'this.state' is a malleable object.
+```
+constructor(props) {
+    super(props);
+    this.state = {
+      posts: [],
+      comments: []
+    };
+  }
+
+  componentDidMount() {
+    fetchPosts().then(response => {
+      this.setState({
+        posts: response.posts
+      });
+    });
+
+    fetchComments().then(response => {
+      this.setState({
+        comments: response.comments
+      });
+    });
+  }
+```
+    * The merging is shallow, so this.setState({comments}) leaves this.state.posts intact, but completely replaces this.state.comments.
+
+

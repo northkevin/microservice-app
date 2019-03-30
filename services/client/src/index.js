@@ -43,7 +43,7 @@ class App extends Component
       .catch((err) => { console.log(err); });
   };
 
-  //TODO identify where the 'setState' method is defined
+  //TODO_LESSONS_LEARNED_2 identify where the 'setState' method is defined
   //TODO_LESSONS_LEARNED_1 identify where the '.name' property comes from within the 'event.target.name'
   handleChange(event)
   {
