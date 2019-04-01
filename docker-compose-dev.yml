@@ -22,13 +22,13 @@ services:
     environment:
       - FLASK_ENV=development
       - APP_SETTINGS=project.config.DevelopmentConfig
-      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev  # new
-      - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test  # new
+      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
+      - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
       - SECRET_KEY=my_precious
-    depends_on:  # new
+    depends_on:
       - users-db
 
-  users-db:  # new
+  users-db:
     build:
       context: ./services/users/project/db
       dockerfile: Dockerfile
@@ -47,3 +47,19 @@ services:
     - 80:80
     depends_on:
     - users
+    - client
+
+  client:
+    build:
+      context: ./services/client
+      dockerfile: Dockerfile-dev
+    volumes:
+      - './services/client:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+      - 3007:3000
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
+    depends_on:
+      - users
