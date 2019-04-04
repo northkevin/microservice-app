@@ -117,7 +117,9 @@ class TestUserService(BaseTestCase):
 
     def test_single_user(self):
         """Ensure get single user behaves correctly."""
-        user = add_user(username='michael', email='michael@mherman.org', password='greaterthaneight')
+        user = add_user(username='michael',
+                        email='michael@mherman.org',
+                        password='greaterthaneight')
         db.session.add(user)
         db.session.commit()
         with self.client:
