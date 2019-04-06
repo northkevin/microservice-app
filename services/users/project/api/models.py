@@ -64,11 +64,12 @@ class User(db.Model):
         """Decodes the auth token"""
         try:
 
-            return jwt.decode(
+            decoded_token = jwt.decode(
                 token,
                 current_app.config.get('SECRET_KEY'),
                 algorithm='HS256'
             )
+            return decoded_token['sub']
         # except Exception as e:
         #     return e
         except jwt.ExpiredSignatureError:
