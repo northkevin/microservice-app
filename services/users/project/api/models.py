@@ -39,12 +39,14 @@ class User(db.Model):
             'created_date': self.created_date
         }
 
-    def encode_auth_token(self, user_id):
+    @staticmethod
+    def encode_auth_token(user_id):
         """Generates the auth token"""
         try:
             payload = {
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(
-                    days=0, seconds=5),
+                    days=current_app.config.get('TOKEN_EXPIRATION_DAYS'),
+                    seconds=current_app.config.get('TOKEN_EXPIRATION_SECONDS')),
                 'iat': datetime.datetime.utcnow(),
                 'sub': user_id
             }
@@ -55,3 +57,21 @@ class User(db.Model):
             )
         except Exception as e:
             return e
+
+    # TODO write tests for the 'jwt.ExpiredSignatureError' & 'jwt.InvalidTokenError' error handling
+    @staticmethod
+    def decode_auth_token(token):
+        """Decodes the auth token"""
+        try:
+
+            return jwt.decode(
+                token,
+                current_app.config.get('SECRET_KEY'),
+                algorithm='HS256'
+            )
+        # except Exception as e:
+        #     return e
+        except jwt.ExpiredSignatureError:
+            return 'Signature expired. Please log in again.'
+        except jwt.InvalidTokenError:
+            return 'Invalid token. Please log in again.'

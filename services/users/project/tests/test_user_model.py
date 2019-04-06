@@ -53,6 +53,12 @@ class TestUserModel(BaseTestCase):
         auth_token = user.encode_auth_token(user.id)
         self.assertTrue(isinstance(auth_token, bytes))
 
+    def test_decode_auth_token(self):
+        user = add_user('justatest', 'test@test.com', 'test')
+        auth_token = user.encode_auth_token(user.id)
+        decoded_token = user.decode_auth_token(auth_token)
+        self.assertTrue(user.id, decoded_token)
+
 
 if __name__ == '__main__':
     unittest.main()
