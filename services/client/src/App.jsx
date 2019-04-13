@@ -8,6 +8,7 @@ import { Route, Switch } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Form from './components/Form';
 import Logout from './components/Logout';
+import UserStatus from './components/UserStatus';
 
 class App extends Component
 {
@@ -44,11 +45,13 @@ class App extends Component
   {
     event.preventDefault();
     const formType = window.location.href.split('/').reverse()[0];
-    let data = {
+    let data =
+      {
       email: this.state.formData.email,
       password: this.state.formData.password,
     };
-    if (formType === 'register') {
+    if (formType === 'register')
+    {
       data.username = this.state.formData.username;
     }
     const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/${formType}`
@@ -127,13 +130,21 @@ class App extends Component
   {
     return (
       <div>
-        <NavBar title={this.state.title} />
+        <NavBar
+          title={this.state.title}
+          isAuthenticated={this.state.isAuthenticated}
+        />
         <section className="section">
           <div className="container">
             <div className="columnns">
               <div className="column is-half">
                 <br/>
                 <Switch>
+                  <Route exact path='/status' render={() => (
+                    <UserStatus
+                      isAuthenticated={this.state.isAuthenticated}
+                    />
+                  )} />
                   <Route exact path='/logout' render={() => (
                     <Logout
                       logoutUser={this.logoutUser}
