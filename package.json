@@ -1,0 +1,7 @@
+{
+  "name": "testdriven-app",
+  "version": "1.0.0",
+  "devDependencies": {
+    "cypress": "^3.1.4"
+  }
+}
