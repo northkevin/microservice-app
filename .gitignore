@@ -8,3 +8,4 @@ htmlcov/
 migrations/
 services/client/src/components/__tests__/__snapshots__
 services/client/package-lock.json
+init_secrets.*
