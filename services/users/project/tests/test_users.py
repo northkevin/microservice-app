@@ -99,7 +99,7 @@ class TestUserService(BaseTestCase):
                 '/users',
                 data=json.dumps({}),  # empty json request
                 content_type='application/json',
-                headers = {'Authorization': f'Bearer {token}'}
+                headers={'Authorization': f'Bearer {token}'}
             )
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
