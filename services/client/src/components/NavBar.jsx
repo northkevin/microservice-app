@@ -29,10 +29,10 @@ const NavBar = (props) => (
           }
         </div>
         <div className="navbar-end">
-          {props.isAuthenticated &&
+          {!props.isAuthenticated &&
             <Link to="/register" className="navbar-item">Register</Link>
           }
-          {props.isAuthenticated &&
+          {!props.isAuthenticated &&
             <Link to="/login" className="navbar-item">Log In</Link>
           }
           {props.isAuthenticated &&
