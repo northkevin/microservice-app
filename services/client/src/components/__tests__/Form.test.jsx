@@ -32,6 +32,7 @@ const testData = [
 describe('When not authenticated', () => {
   testData.forEach((el) => {
     const component = <Form {...el} />;
+
     it(`${el.formType} Form renders properly`, () => {
       const wrapper = shallow(component);
       const h1 = wrapper.find('h1');
@@ -43,6 +44,7 @@ describe('When not authenticated', () => {
         Object.keys(el.formData)[0]);
       expect(formGroup.get(0).props.children.props.value).toBe('');
     });
+
     it(`${el.formType} Form submits the form properly`, () => {
       const wrapper = shallow(component);
       wrapper.instance().handleUserFormSubmit = jest.fn();
@@ -55,10 +57,18 @@ describe('When not authenticated', () => {
       expect(wrapper.instance().handleUserFormSubmit).toHaveBeenCalledWith(el.formData);
       expect(wrapper.instance().handleUserFormSubmit).toHaveBeenCalledTimes(1);
     });
+
     it(`${el.formType} Form renders a snapshot properly`, () => {
       const tree = renderer.create(component).toJSON();
       expect(tree).toMatchSnapshot();
     });
+
+    it(`${el.formType} Form should be disabled by default`, () => {
+      const wrapper = shallow(component);
+      const input = wrapper.find('input[type="submit"]');
+      expect(input.get(0).props.disabled).toEqual(true);
+    });
+    
   })
 });
 

@@ -10,29 +10,36 @@ class Form extends Component {
         username: '',
         email: '',
         password: ''
-      }
+      },
+      valid: false,
     };
     this.handleUserFormSubmit = this.handleUserFormSubmit.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
   };
+
   componentDidMount() {
     this.clearForm();
   };
+
   componentWillReceiveProps(nextProps) {
     if (this.props.formType !== nextProps.formType) {
       this.clearForm();
     };
   };
+  
   clearForm() {
     this.setState({
       formData: {username: '', email: '', password: ''}
     });
   };
+
   handleFormChange(event) {
     const obj = this.state.formData;
     obj[event.target.name] = event.target.value;
     this.setState(obj);
+    this.validateForm();
   };
+
   handleUserFormSubmit(event) {
     event.preventDefault();
     const formType = this.props.formType
@@ -51,6 +58,11 @@ class Form extends Component {
     })
     .catch((err) => { console.log(err); });
   };
+
+  validateForm() {
+    this.setState({valid: true});
+  };
+
   render() {
     if (this.props.isAuthenticated) {
       return <Redirect to='/' />;
@@ -104,6 +116,7 @@ class Form extends Component {
             type="submit"
             className="button is-primary is-medium is-fullwidth"
             value="Submit"
+            disabled={!this.state.valid}
           />
         </form>
       </div>
