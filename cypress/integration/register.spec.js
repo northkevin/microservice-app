@@ -10,7 +10,10 @@ describe('Register', () => {
           .visit('/register')
           .get('h1').contains('Register')
           .get('form')
-          .get('input[disabled]');
+          .get('input[disabled]')
+          .get('.validation-list')
+          .get('.validation-list > .error').first().contains(
+              'Username must be greater than 5 characters.');
     });
 
     it('should allow a user to register', () => {
