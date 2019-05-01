@@ -62,7 +62,15 @@ class Form extends Component {
       this.clearForm();
       this.props.loginUser(res.data.auth_token);
     })
-    .catch((err) => { console.log(err); });
+    .catch((err) => { 
+      if (formType === 'Login') {
+        this.props.createMessage('User does not exist.', 'danger');
+      };
+
+      if (formType === 'Register') {
+        this.props.createMessage('That user already exists.','danger');
+      };
+     });
   };
 
   validateForm() {
@@ -96,7 +104,7 @@ class Form extends Component {
   // eslint-disable-next-line
   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(email);
-};
+  };
 
   allTrue() {
     let formRules = loginFormRules;

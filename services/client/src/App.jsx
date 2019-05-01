@@ -23,6 +23,8 @@ class App extends Component {
     };
     this.logoutUser = this.logoutUser.bind(this);
     this.loginUser = this.loginUser.bind(this);
+    this.createMessage = this.createMessage.bind(this);
+    this.removeMessage = this.removeMessage.bind(this);
   };
   componentWillMount() {
     if (window.localStorage.getItem('authToken')) {
@@ -52,6 +54,16 @@ class App extends Component {
       messageName: name,
       messageType: type
     });
+
+    setTimeout(() => {
+      this.removeMessage();
+    }, 3000);
+  };
+  removeMessage(){
+    this.setState({
+      messageName: null,
+      messageType: null
+    });
   };
   render() {
     return (
@@ -66,6 +78,7 @@ class App extends Component {
               <Message
                 messageName={this.state.messageName}
                 messageType={this.state.messageType}
+                removeMessage={this.removeMessage}
               />
             }
             <div className="columns">
@@ -83,6 +96,7 @@ class App extends Component {
                       formType={'Register'}
                       isAuthenticated={this.state.isAuthenticated}
                       loginUser={this.loginUser}
+                      createMessage={this.createMessage}
                     />
                   )} />
                   <Route exact path='/login' render={() => (
@@ -90,6 +104,7 @@ class App extends Component {
                       formType={'Login'}
                       isAuthenticated={this.state.isAuthenticated}
                       loginUser={this.loginUser}
+                      createMessage={this.createMessage}
                     />
                   )} />
                   <Route exact path='/logout' render={() => (
