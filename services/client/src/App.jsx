@@ -47,19 +47,18 @@ class App extends Component {
     window.localStorage.setItem('authToken', token);
     this.setState({ isAuthenticated: true });
     this.getUsers();
-    this.createMessage('Welcome!','success');
+    this.createMessage('Welcome!', 'success');
   };
   createMessage(name='Sanity Check', type='success') {
     this.setState({
       messageName: name,
       messageType: type
     });
-
     setTimeout(() => {
       this.removeMessage();
     }, 3000);
   };
-  removeMessage(){
+  removeMessage() {
     this.setState({
       messageName: null,
       messageType: null
@@ -74,7 +73,7 @@ class App extends Component {
         />
         <section className="section">
           <div className="container">
-            {this.state.messageName && this.state.messageType && 
+            {this.state.messageName && this.state.messageType &&
               <Message
                 messageName={this.state.messageName}
                 messageType={this.state.messageType}
