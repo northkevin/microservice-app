@@ -27,19 +27,39 @@
                 }
             }
         },
-        "/users": 
-        {
-            "get": 
-            {
-                "summary": "Returns all users",
-                "responses": 
-                {
-                    "200": 
-                    {
-                        "description": "user object"
-                    }
-                }
+        "/users": {
+          "get": {
+            "summary": "Returns all users",
+            "responses": {
+              "200": {
+                "description": "user object"
+              }
             }
+          },
+          "post": {
+            "summary": "Adds a new user",
+            "requestBody": {
+              "description": "User to add",
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/user-full"
+                  }
+                }
+              }
+            },
+            "security": [
+              {
+                "bearerAuth": []
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "User added"
+              }
+            }
+          }
         },
         "/users/{id}": 
         {
@@ -124,10 +144,69 @@
                 }
               }
             }
+          },
+        "/auth/status": {
+          "get": {
+            "summary": "Returns the logged in user's status",
+            "security": [
+              {
+                "bearerAuth": []
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "user object"
+              }
+            }
           }
+        },
+        "/auth/logout": {
+          "get": {
+            "summary": "Logs a user out",
+            "security": [
+              {
+                "bearerAuth": []
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Successfully logged out"
+              }
+            }
+          }
+        }
     },
-    "components": 
-    {
-        
+    "components": {
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer"
+        }
+      },
+      "schemas": {
+        "user": {
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
+        },
+        "user-full": {
+          "properties": {
+            "username": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
+        }
+      }
     }
 }
