@@ -7,3 +7,4 @@ init_secrets.py
 init_secrets.sh
 init_stage.sh
 secrets
+cypress/screenshots
