@@ -18,6 +18,7 @@ then
     register_definition() {
       if revision=$(aws ecs register-task-definition --cli-input-json "$task_def" | $JQ '.taskDefinition.taskDefinitionArn'); then
         echo "Revision: $revision"
+        return 0
       else
         echo "Failed to register task definition"
         return 1
@@ -29,7 +30,10 @@ then
       if [[ $(aws ecs update-service --cluster $cluster --service $service --task-definition $revision | $JQ '.service.taskDefinition') != $revision ]]; then
         echo "Error updating service."
         return 1
+      else
+        return 0
       fi
+      
     }
 
     deploy_cluster() {
@@ -44,9 +48,19 @@ then
       task_template=$(cat "ecs/$template")
       task_def=$(printf "$task_template" $AWS_ACCOUNT_ID $AWS_ACCOUNT_ID)
       echo "$task_def"
-      register_definition
-      # new
-      update_service
+
+      if [[ register_definition ]]; then 
+        echo "register_definition was successfull for template: $template"
+      else 
+        echo "register_definition failed for template: $template"
+      fi
+
+      if [[ update_service ]]; then 
+        echo "update_service was successfull for service: $service"
+      else 
+        echo "update_service failed for service: $service"
+      fi
+      
 
       # client
       # new
@@ -55,9 +69,22 @@ then
       task_template=$(cat "ecs/$template")
       task_def=$(printf "$task_template" $AWS_ACCOUNT_ID)
       echo "$task_def"
-      register_definition
-      # new
-      update_service
+
+      if [[ register_definition ]]; then 
+        echo "register_definition was successfull for template: $template"
+      else 
+        echo "register_definition failed for template: $template"
+      fi
+
+      if [[ update_service ]]; then 
+        echo "update_service was successfull for service: $service"
+      else 
+        echo "update_service failed for service: $service"
+      fi
+
+      # register_definition
+      # # new
+      # update_service
 
       # swagger
       # new
@@ -66,9 +93,23 @@ then
       task_template=$(cat "ecs/$template")
       task_def=$(printf "$task_template" $AWS_ACCOUNT_ID)
       echo "$task_def"
-      register_definition
-      # new
-      update_service
+
+      if [[ register_definition ]]; then 
+        echo "register_definition was successfull for template: $template"
+      else 
+        echo "register_definition failed for template: $template"
+      fi
+
+      if [[ update_service ]]; then 
+        echo "update_service was successfull for service: $service"
+      else 
+        echo "update_service failed for service: $service"
+      fi
+
+      # register_definition
+      # # new
+      # update_service
+
 
     }
 
