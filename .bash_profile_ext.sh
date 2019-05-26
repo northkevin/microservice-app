@@ -4,6 +4,12 @@
 
 export REACT_APP_USERS_SERVICE_URL="http://localhost"
 printf "REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}"
+export LOAD_BALANCER_STAGE_DNS_NAME=testdriven-staging-alb-1457912982.us-west-1.elb.amazonaws.com
+printf "\nLOAD_BALANCER_STAGE_DNS_NAME=${LOAD_BALANCER_STAGE_DNS_NAME}"
+function swagger-stage()
+{
+	python services/swagger/update-spec.py http://$LOAD_BALANCER_STAGE_DNS_NAME
+}
 
 # Docker / Flask testdriven.io commands
 function myapp()
