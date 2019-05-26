@@ -1,8 +1,3 @@
-# Microservices with Docker, Flask, and React
+# Microservices with Flask, React, and Kubernetes
 
-[![Build Status](https://travis-ci.com/northkevin/microservice-app.svg?branch=master)](https://travis-ci.org/northkevin/microservice-app)
-
-
-#### Local Testing Notes
-`export REACT_APP_USERS_SERVICE_URL=http://localhost`
-`set REACT_APP_USERS_SERVICE_URL=http://localhost`
+[![Build Status](https://travis-ci.com/northkevin/testdriven-app-2.5.svg?branch=master)](https://travis-ci.com/northkevin/testdriven-app-2.5)
