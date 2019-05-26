@@ -1,5 +1,9 @@
 sudo: required
 
+cache: 
+  - pip
+  - npm
+
 services:
   - docker
 
