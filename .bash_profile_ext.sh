@@ -8,7 +8,7 @@ printf "REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}"
 # Docker / Flask testdriven.io commands
 function myapp()
 {
-	winpty docker-compose -f "${MYAPPDIR}/docker-compose.yml" "$@"
+	docker-compose -f "${MYAPPDIR}/docker-compose.yml" "$@"
 }
 
 function myapp-init()
