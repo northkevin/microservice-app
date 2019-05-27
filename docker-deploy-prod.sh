@@ -39,8 +39,10 @@ then
 
     deploy_cluster() {
 
+      cluster="test-driven-production-cluster" # new
 
       # users
+      service="testdriven-users-prod-service"  # new
       template="ecs_users_prod_taskdefinition.json"
       task_template=$(cat "ecs/$template")
       task_def=$(printf "$task_template" $AWS_ACCOUNT_ID $AWS_RDS_URI $PRODUCTION_SECRET_KEY)
@@ -55,6 +57,7 @@ then
       fi
 
       # client
+      service="testdriven-client-prod-service"  # new
       template="ecs_client_prod_taskdefinition.json"
       task_template=$(cat "ecs/$template")
       task_def=$(printf "$task_template" $AWS_ACCOUNT_ID)
