@@ -22,4 +22,4 @@ RUN chmod +x /usr/src/app/entrypoint-stage.sh
 COPY . /usr/src/app
 
 # run server
-CMD ["/usr/src/app/entrypoint-stage.sh"]
+CMD ["sh", "entrypoint-stage.sh"]
