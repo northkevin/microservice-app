@@ -12,6 +12,8 @@ then
   elif [[ "$TRAVIS_BRANCH" == "production" ]]; then
      export DOCKER_ENV=prod
      export REACT_APP_USERS_SERVICE_URL="http://testdriven-production-alb-1863924933.us-west-1.elb.amazonaws.com"
+     export DATABASE_URL="$AWS_RDI_URI"
+     export SECRET_KEY="$PRODUCTION_SECRET_KEY"
   fi
     curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
     unzip awscli-bundle.zip
