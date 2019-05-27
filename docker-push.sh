@@ -12,7 +12,7 @@ then
   elif [[ "$TRAVIS_BRANCH" == "production" ]]; then
      export DOCKER_ENV=prod
      export REACT_APP_USERS_SERVICE_URL="http://testdriven-production-alb-1863924933.us-west-1.elb.amazonaws.com"
-  then
+  fi
     curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
     unzip awscli-bundle.zip
     ./awscli-bundle/install -b ~/bin/aws
@@ -43,6 +43,7 @@ then
     docker push $REPO/$SWAGGER:$TAG
 
   elif [[ "$TRAVIS_BRANCH" == "production" ]]; then
+  elif [[ "${env}" == "production" ]]; then
     # users
     docker build $USERS_REPO -t $USERS:$COMMIT -f Dockerfile-$DOCKER_ENV
     docker tag $USERS:$COMMIT $REPO/$USERS:$TAG
