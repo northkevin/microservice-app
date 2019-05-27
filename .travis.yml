@@ -1,12 +1,16 @@
 sudo: required
 
+cache: 
+  - pip
+  - npm
+
 services:
   - docker
 
 env:
   DOCKER_COMPOSE_VERSION: 1.23.2
   COMMIT: ${TRAVIS_COMMIT::8}
-  MAIN_REPO: https://github.com/northkevin/testdriven-app-2.5.git
+  MAIN_REPO: https://github.com/northkevin/microservice-app.git
   USERS: test-driven-users
   USERS_REPO: ${MAIN_REPO}#${TRAVIS_BRANCH}:services/users
   USERS_DB: test-driven-users_db

@@ -3,6 +3,7 @@
 echo "docker-deploy-stage bash script is now executing"
 echo "docker-deploy-stage 'pwd' is .. $(pwd)"
 echo "docker-deploy-stage 'ls -al' is .. $(ls -al)"
+echo "docker-deploy-stage 'ls -al ecs' is .. $(ls -al ecs)"
 
 if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]
 then
@@ -58,6 +59,7 @@ then
       if ! $(exit $status); then
         echo "register_definition failed."
         echo "dumping current value of template: $template"
+        return
       fi
 
       update_service
@@ -65,6 +67,7 @@ then
       if ! $(exit $status); then
         echo "register_definition failed."
         echo "dumping current value of template: $template"
+        return
       fi
       
 
