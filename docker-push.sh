@@ -43,7 +43,6 @@ then
     docker push $REPO/$SWAGGER:$TAG
 
   elif [[ "$TRAVIS_BRANCH" == "production" ]]; then
-  elif [[ "${env}" == "production" ]]; then
     # users
     docker build $USERS_REPO -t $USERS:$COMMIT -f Dockerfile-$DOCKER_ENV
     docker tag $USERS:$COMMIT $REPO/$USERS:$TAG
