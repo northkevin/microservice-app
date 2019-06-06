@@ -4,12 +4,13 @@ import renderer from 'react-test-renderer';
 import { MemoryRouter as Router } from 'react-router-dom';
 
 import FormErrors from '../forms/FormErrors';
-import { registerFormRules, loginFormRules } from '../forms/form-rules';
+import { registerFormRules, loginFormRules } from '../forms/form-rules.js';
 
 const registerFormProps = {
   formType: 'Register',
   formRules: registerFormRules,
 }
+
 const loginFormProps = {
   formType: 'Login',
   formRules: loginFormRules,

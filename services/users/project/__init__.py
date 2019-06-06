@@ -3,30 +3,19 @@
 
 import os
 
-from flask import Flask  # new
-
-from flask_debugtoolbar import DebugToolbarExtension
-
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-
+from flask_debugtoolbar import DebugToolbarExtension
 from flask_cors import CORS
-
 from flask_migrate import Migrate
-
 from flask_bcrypt import Bcrypt
 
 
-# instantiate the db
+# instantiate the extensions
 db = SQLAlchemy()
-
-# add flask debug toolbar
 toolbar = DebugToolbarExtension()
-
-# allow cross domain requests on localhost
 cors = CORS()
-
 migrate = Migrate()
-
 bcrypt = Bcrypt()
 
 

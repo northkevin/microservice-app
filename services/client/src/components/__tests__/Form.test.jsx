@@ -32,7 +32,6 @@ const testData = [
 describe('When not authenticated', () => {
   testData.forEach((el) => {
     const component = <Form {...el} />;
-
     it(`${el.formType} Form renders properly`, () => {
       const wrapper = shallow(component);
       const h1 = wrapper.find('h1');
@@ -59,7 +58,6 @@ describe('When not authenticated', () => {
       expect(wrapper.instance().handleUserFormSubmit).toHaveBeenCalledTimes(1);
       expect(wrapper.instance().validateForm).toHaveBeenCalledTimes(1);
     });
-
     it(`${el.formType} Form renders a snapshot properly`, () => {
       const tree = renderer.create(component).toJSON();
       expect(tree).toMatchSnapshot();
@@ -70,7 +68,6 @@ describe('When not authenticated', () => {
       const input = wrapper.find('input[type="submit"]');
       expect(input.get(0).props.disabled).toEqual(true);
     });
-
   })
 });
 
@@ -81,6 +78,7 @@ describe('When authenticated', () => {
       formData={el.formData}
       isAuthenticated={true}
     />;
+
     it(`${el.formType} redirects properly`, () => {
       const wrapper = shallow(component);
       expect(wrapper.find('Redirect')).toHaveLength(1);

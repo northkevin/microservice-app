@@ -7,7 +7,6 @@ const NavBar = (props) => (
     <section className="container">
       <div className="navbar-brand">
         <strong className="navbar-item">{props.title}</strong>
-        {/* new */}
         <span
           className="nav-toggle navbar-burger"
           onClick={() => {

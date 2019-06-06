@@ -1,46 +1,55 @@
 version: '3.7'
 
-# build the image
-# docker-compose -f docker-compose-dev.yml build
-
-# bring up the built image
-# docker-compose -f docker-compose-dev.yml up -d
-
-# update current build
-# docker-compose -f docker-compose-dev.yml up -d --build
-
 services:
 
   users:
     build:
       context: ./services/users
       dockerfile: Dockerfile-prod
-#    volumes:
-#      - './services/users:/usr/src/app'
-#    ports:
-#      - 5001:5000
+    expose:
+      - 5000
     environment:
       - FLASK_ENV=production
       - APP_SETTINGS=project.config.ProductionConfig
-      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
+      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_prod
       - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
       - SECRET_KEY=${SECRET_KEY}
     depends_on:
       - users-db
-    expose:
-      - '5000'
 
-  users-db:  # new
+  users-db:
     build:
       context: ./services/users/project/db
       dockerfile: Dockerfile
-#    ports:
-#      - 5435:5432
     expose:
       - 5432
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+
+  client:
+    container_name: client
+    build:
+      context: ./services/client
+      dockerfile: Dockerfile-prod
+      args:
+        - NODE_ENV=production
+        - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
+    expose:
+      - 80
+    depends_on:
+      - users
+
+  swagger:
+    build:
+      context: ./services/swagger
+      dockerfile: Dockerfile-prod
+    expose:
+      - 8080
+    environment:
+      - URL=swagger.json
+    depends_on:
+      - users
 
   nginx:
     build:
@@ -52,16 +61,3 @@ services:
     depends_on:
       - users
       - client
-
-  client:
-    container_name: client
-    build:
-      context: ./services/client
-      dockerfile: Dockerfile-prod
-      args:
-        - NODE_ENV=production
-        - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
-    ports:
-      - '3007:80'
-    depends_on:
-      - users

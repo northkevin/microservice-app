@@ -1,13 +1,17 @@
-#!/usr/local/bin/python
+#!/usr/bin/env python
+
+# services/users/manage.py
+
+
 import sys
 import unittest
 
-import coverage as coverage
-
+import coverage
 from flask.cli import FlaskGroup
 
 from project import create_app, db
 from project.api.models import User
+
 
 COV = coverage.coverage(
     branch=True,
@@ -23,46 +27,11 @@ app = create_app()
 cli = FlaskGroup(create_app=create_app)
 
 
-@cli.command('bug')
-def bug():
-    """Prints out debugging info when I need it"""
-    import os
-    print(os.environ.get('DEBUG_TB_ENABLED'))
-    print(os.environ.get('APP_SETTINGS'))
-    print(os.environ)
-
-
-@cli.command('cov')
-def cov():
-    """Runs the unit tests with coverage"""
-    tests = unittest.TestLoader().discover('project/tests')
-    result = unittest.TextTestRunner(verbosity=2).run(tests)
-    if result.wasSuccessful():
-        COV.stop()
-        COV.save()
-        print('Coverage Summary:')
-        COV.report()
-        COV.html_report()
-        COV.erase()
-        return 0
-    sys.exit(result)
-
-
 @cli.command('recreate_db')
 def recreate_db():
     db.drop_all()
     db.create_all()
     db.session.commit()
-
-
-@cli.command('test')
-def test():
-    """ Runs the tests without code coverage"""
-    tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
-    result = unittest.TextTestRunner(verbosity=2).run(tests)
-    if result.wasSuccessful():
-        return 0
-    sys.exit(result)
 
 
 @cli.command('seed_db')
@@ -79,6 +48,32 @@ def seed_db():
         password='greaterthaneight'
     ))
     db.session.commit()
+
+
+@cli.command()
+def test():
+    """Runs the tests without code coverage"""
+    tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
+    result = unittest.TextTestRunner(verbosity=2).run(tests)
+    if result.wasSuccessful():
+        return 0
+    sys.exit(result)
+
+
+@cli.command()
+def cov():
+    """Runs the unit tests with coverage."""
+    tests = unittest.TestLoader().discover('project/tests')
+    result = unittest.TextTestRunner(verbosity=2).run(tests)
+    if result.wasSuccessful():
+        COV.stop()
+        COV.save()
+        print('Coverage Summary:')
+        COV.report()
+        COV.html_report()
+        COV.erase()
+        return 0
+    sys.exit(result)
 
 
 if __name__ == '__main__':

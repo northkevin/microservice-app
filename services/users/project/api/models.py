@@ -1,15 +1,13 @@
 # services/users/project/api/models.py
 
 
-from sqlalchemy.sql import func
-
-from project import db, bcrypt
-
-from flask import current_app
-
 import datetime
 
 import jwt
+from sqlalchemy.sql import func
+from flask import current_app
+
+from project import db, bcrypt
 
 
 class User(db.Model):
@@ -22,15 +20,14 @@ class User(db.Model):
     password = db.Column(db.String(255), nullable=False)
     active = db.Column(db.Boolean(), default=True, nullable=False)
     created_date = db.Column(db.DateTime, default=func.now(), nullable=False)
-    admin = db.Column(db.Boolean(), default=False, nullable=False)
+    admin = db.Column(db.Boolean, default=False, nullable=False)
 
-    def __init__(self, username=None, email=None, password=None, admin=None):
+    def __init__(self, username, email, password):
         self.username = username
         self.email = email
         self.password = bcrypt.generate_password_hash(
             password, current_app.config.get('BCRYPT_LOG_ROUNDS')
         ).decode()
-        self.admin = admin
 
     def to_json(self):
         return {
@@ -38,20 +35,17 @@ class User(db.Model):
             'username': self.username,
             'email': self.email,
             'active': self.active,
-            'created_date': self.created_date,
             'admin': self.admin
         }
 
-    @staticmethod
-    def encode_auth_token(user_id):
+    def encode_auth_token(self, user_id):
         """Generates the auth token"""
         try:
             payload = {
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(
-                    days=current_app.config.get(
-                        'TOKEN_EXPIRATION_DAYS'),
-                    seconds=current_app.config.get(
-                        'TOKEN_EXPIRATION_SECONDS')),
+                    days=current_app.config.get('TOKEN_EXPIRATION_DAYS'),
+                    seconds=current_app.config.get('TOKEN_EXPIRATION_SECONDS')
+                ),
                 'iat': datetime.datetime.utcnow(),
                 'sub': user_id
             }
@@ -64,18 +58,14 @@ class User(db.Model):
             return e
 
     @staticmethod
-    def decode_auth_token(token):
-        """Decodes the auth token"""
+    def decode_auth_token(auth_token):
+        """
+        Decodes the auth token - :param auth_token: - :return: integer|string
+        """
         try:
-
-            decoded_token = jwt.decode(
-                token,
-                current_app.config.get('SECRET_KEY'),
-                algorithm='HS256'
-            )
-            return decoded_token['sub']
-        # except Exception as e:
-        #     return e
+            payload = jwt.decode(
+                auth_token, current_app.config.get('SECRET_KEY'))
+            return payload['sub']
         except jwt.ExpiredSignatureError:
             return 'Signature expired. Please log in again.'
         except jwt.InvalidTokenError:

@@ -66,5 +66,5 @@ describe('When given a danger message', () => {
       <Message {...messageDangerProps} />
     ).toJSON();
     expect(tree).toMatchSnapshot();
-    });
+  });
 });
