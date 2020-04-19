@@ -19,5 +19,7 @@ describe("Index", () => {
       .contains("Swagger")
       .get(".notification.is-success")
       .should("not.be.visible");
+
+    cy.get("footer").contains("Copyright 2019 TestDriven.io.").should("exist");
   });
 });
