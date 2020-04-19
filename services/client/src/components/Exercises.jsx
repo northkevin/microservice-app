@@ -7,8 +7,24 @@ class Exercises extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      exercises: [], // new
+      exercises: [],
+      editor: {
+        value: "# Enter your code here.",
+      },
     };
+    this.onChange = this.onChange.bind(this);
+    this.submitExercise = this.submitExercise.bind(this);
+  }
+  onChange(value) {
+    this.setState({
+      editor: {
+        value: value,
+      },
+    });
+  }
+  submitExercise(event) {
+    event.preventDefault();
+    console.log(this.state.editor.value);
   }
   getExercises() {
     const exercises = [
@@ -54,12 +70,13 @@ class Exercises extends Component {
               theme="solarized_dark"
               name={this.state.exercises[0].id.toString()}
               onLoad={this.onLoad}
+              onChange={this.onChange}
               fontSize={14}
               height={"175px"}
               showPrintMargin={true}
               showGutter={true}
               highlightActiveLine={true}
-              value={"# Enter your code here."}
+              value={this.state.editor.value}
               style={{
                 marginBottom: "10px",
               }}
@@ -68,7 +85,12 @@ class Exercises extends Component {
               }}
             />
             {this.props.isAuthenticated && (
-              <button className="button is-primary">Run Code</button>
+              <button
+                className="button is-primary"
+                onClick={this.submitExercise}
+              >
+                Run Code
+              </button>
             )}
             <br />
             <br />
