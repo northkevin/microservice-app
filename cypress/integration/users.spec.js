@@ -1,6 +1,8 @@
-describe("Index", () => {
-  it("should display the page correctly if a user is not logged in", () => {
-    cy.visit("/")
+describe("All Users", () => {
+  it("should display the all-users page correctly if a user is not logged in", () => {
+    cy.visit("/all-users")
+      .get("h1")
+      .contains("All Users")
       .get(".navbar-burger")
       .click()
       .get("a")
@@ -15,9 +17,9 @@ describe("Index", () => {
       .contains("Log In")
       .get("a")
       .contains("Swagger")
+      .get("a")
+      .contains("Users")
       .get(".notification.is-success")
       .should("not.be.visible");
-
-    cy.get("footer").contains("Copyright 2019 TestDriven.io.").should("exist");
   });
 });
