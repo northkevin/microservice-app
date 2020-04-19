@@ -88,7 +88,13 @@ class App extends Component {
               <div className="column is-half">
                 <br />
                 <Switch>
-                  <Route exact path="/" render={() => <Exercises />} />
+                  <Route
+                    exact
+                    path="/"
+                    render={() => (
+                      <Exercises isAuthenticated={this.state.isAuthenticated} />
+                    )}
+                  />
                   <Route
                     exact
                     path="/all-users"

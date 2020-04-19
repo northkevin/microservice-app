@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import AceEditor from "react-ace";
+import "brace/mode/python";
+import "brace/theme/solarized_dark";
 
 class Exercises extends Component {
   constructor(props) {
@@ -34,13 +37,41 @@ class Exercises extends Component {
   render() {
     return (
       <div>
-        {/* new */}
         <h1 className="title is-1">Exercises</h1>
         <hr />
         <br />
+        {/* new */}
+        {!this.props.isAuthenticated && (
+          <div className="notification is-warning">
+            <span>Please log in to submit an exercise.</span>
+          </div>
+        )}
         {this.state.exercises.length && (
           <div key={this.state.exercises[0].id}>
             <h5 className="title is-5">{this.state.exercises[0].body}</h5>
+            <AceEditor
+              mode="python"
+              theme="solarized_dark"
+              name={this.state.exercises[0].id.toString()}
+              onLoad={this.onLoad}
+              fontSize={14}
+              height={"175px"}
+              showPrintMargin={true}
+              showGutter={true}
+              highlightActiveLine={true}
+              value={"# Enter your code here."}
+              style={{
+                marginBottom: "10px",
+              }}
+              editorProps={{
+                $blockScrolling: Infinity,
+              }}
+            />
+            {this.props.isAuthenticated && (
+              <button className="button is-primary">Run Code</button>
+            )}
+            <br />
+            <br />
           </div>
         )}
       </div>
