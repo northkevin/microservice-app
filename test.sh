@@ -13,10 +13,18 @@ inspect() {
 # run server-side tests
 server() {
   docker-compose up -d --build
+  # test users service
   docker-compose exec users python manage.py test
   inspect $? users
+  # lint users service
   docker-compose exec users flake8 project
   inspect $? users-lint
+  # test exercises service
+  docker-compose exec exercises python manage.py test
+  inspect $? exercises
+  # lint exercises service
+  docker-compose exec exercises python manage.py test
+  inspect $? exercises-lint
   docker-compose down
 }
 
@@ -40,10 +48,19 @@ e2e() {
 # run all tests
 all() {
   docker-compose up -d --build
+  # test users service
   docker-compose exec users python manage.py test
   inspect $? users
+  # lint users service
   docker-compose exec users flake8 project
   inspect $? users-lint
+  # test exercises service
+  docker-compose exec exercises python manage.py test
+  inspect $? exercises
+  # lint exercises service
+  docker-compose exec exercises python manage.py test
+  inspect $? exercises-lint
+  # test client service
   docker-compose exec client npm test -- --coverage
   inspect $? client
   docker-compose down

@@ -1,13 +1,12 @@
-version: '3.7'
+version: "3.7"
 
 services:
-
   users:
     build:
       context: ./services/users
       dockerfile: Dockerfile
     volumes:
-      - './services/users:/usr/src/app'
+      - "./services/users:/usr/src/app"
     ports:
       - 5001:5000
     environment:
@@ -34,8 +33,8 @@ services:
       context: ./services/client
       dockerfile: Dockerfile
     volumes:
-      - './services/client:/usr/src/app'
-      - '/usr/src/app/node_modules'
+      - "./services/client:/usr/src/app"
+      - "/usr/src/app/node_modules"
     ports:
       - 3007:3000
     environment:
@@ -49,9 +48,9 @@ services:
       context: ./services/swagger
       dockerfile: Dockerfile
     volumes:
-        - './services/swagger/swagger.json:/usr/share/nginx/html/swagger.json'
+      - "./services/swagger/swagger.json:/usr/share/nginx/html/swagger.json"
     ports:
-      - '3008:8080'
+      - "3008:8080"
     environment:
       - URL=swagger.json
     depends_on:
@@ -67,3 +66,19 @@ services:
     depends_on:
       - users
       - client
+
+  exercises:
+    build:
+      context: ./services/exercises
+      dockerfile: Dockerfile
+    volumes:
+      - "./services/exercises:/usr/src/app"
+    ports:
+      - 5002:5000
+    environment:
+      - FLASK_ENV=development
+      - APP_SETTINGS=project.config.DevelopmentConfig
+      - USERS_SERVICE_URL=http://users:5000
+      - SECRET_KEY=my_precious
+    depends_on:
+      - users

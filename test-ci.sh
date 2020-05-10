@@ -13,10 +13,19 @@ inspect() {
 # run client and server-side tests
 dev() {
   docker-compose up -d --build
+  # test exercises service
   docker-compose exec users python manage.py test
   inspect $? users
+  # lint users service
   docker-compose exec users flake8 project
   inspect $? users-lint
+  # test exercises service
+  docker-compose exec exercises python manage.py test
+  inspect $? exercises
+  # lint exercises service
+  docker-compose exec exercises python manage.py test
+  inspect $? exercises-lint
+  # test client service
   docker-compose exec client npm test -- --coverage
   inspect $? client
   docker-compose down
