@@ -1,38 +1,42 @@
-# services/users/project/tests/test_users.py
+# services/exercises/project/tests/test_exercises_api.py
 
 
 import json
 import unittest
 
-from project import db
-from project.api.models import Exercise
 from project.tests.base import BaseTestCase
 from project.tests.utils import add_exercise
 
 
-class TestExerciseService(BaseTestCase):
+class TestExercisesService(BaseTestCase):
     """Tests for the Exercises Service."""
 
-    def test_add_exercise(self):
-        """Ensure a new exercise can be added to the database."""
-        exercise = add_exercise(body='Define a function that returns the sum of two integers.', test_code='sum(2, 2)', test_code_solution='4')
-        # update exercise
-        user = Exercise.query.filter_by(body='Define a function that returns the sum of two integers.').first()
-        exercise.body = 'Edited body'
-        db.session.commit()
+    def test_all_exercises(self):
+        """Ensure get all exercises behaves correctly."""
+        add_exercise()
+        add_exercise(
+            'Just a sample', 'print("Hello, World!")', 'Hello, World!')
         with self.client:
-            response = self.client.post(
-                '/exercises',
-                data=json.dumps({
-                    'body': 'Define a function that returns the product of two integers.',
-                    'test_code': 'product(2, 2)',
-                    'test_code_solution': '4'
-                }),
-                content_type='application/json'
-            )
+            response = self.client.get('/exercises')
             data = json.loads(response.data.decode())
-            self.assertEqual(response.status_code, 201)
-            self.assertIn('exercise was added!', data['message'])
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(len(data['data']['exercises']), 2)
+            self.assertIn(
+                'Define a function called sum',
+                data['data']['exercises'][0]['body'])
+            self.assertEqual(
+                'Just a sample',
+                data['data']['exercises'][1]['body'])
+            self.assertEqual(
+                'sum(2, 2)', data['data']['exercises'][0]['test_code'])
+            self.assertEqual(
+                'print("Hello, World!")',
+                data['data']['exercises'][1]['test_code'])
+            self.assertEqual(
+                '4', data['data']['exercises'][0]['test_code_solution'])
+            self.assertEqual(
+                'Hello, World!',
+                data['data']['exercises'][1]['test_code_solution'])
             self.assertIn('success', data['status'])
 
 
