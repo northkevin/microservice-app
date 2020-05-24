@@ -12,7 +12,7 @@ class Exercise(db.Model):
     __tablename__ = 'exercises'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    body = db.Column(db.String(128), nullable=False)
+    body = db.Column(db.String(255), nullable=False)
     test_code = db.Column(db.String(255), nullable=False)
     test_code_solution = db.Column(db.String(255), nullable=False)
 

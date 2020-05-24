@@ -18,8 +18,11 @@ describe("Register", () => {
   });
 
   it("should allow a user to register", () => {
+    cy.server();
+    cy.route("/users").as("getUsers");
     // register user
     cy.visit("/register")
+      .wait("@getUsers")
       .get('input[name="username"]')
       .type(username)
       .get('input[name="email"]')
@@ -35,6 +38,7 @@ describe("Register", () => {
     cy.contains("Users").click();
     // assert '/all-users' is displayed properly
     cy.get(".navbar-burger").click();
+    cy.wait("@getUsers");
     cy.location().should((loc) => {
       expect(loc.pathname).to.eq("/all-users");
     });
